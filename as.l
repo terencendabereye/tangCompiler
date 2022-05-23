@@ -2,6 +2,7 @@
 %{
     #include "as.h"
     #import "as.tab.h"
+    void yyterminate();
 %}
 
 %%
@@ -32,11 +33,32 @@
         return BIN;
     }
 [A-Za-z][A-Za-z0-9]*    {
-        yylval.i = newSym(yytext);
+        if (lookupSym(yytext)==-1){
+            yylval.i = newSym(yytext);
+            //printf("new var********* %s *\n", yytext);
+        } else {
+            yylval.i = lookupSym(yytext);
+            //printf("existing var********** %s *\n", yytext);
+        }
         return ID;
     }
+$$.*    {
+            //printf("%s\n", yytext);
+            for (int i=2; i<yyleng; i++) {
+                printf("%c", yytext[i]);
+            }
+            printf("\n");
+        }
 \n      {}
 [ \t]+  {}
 "//".+  {}   /*handle line comments*/
-.      {printf("unknown char '%c'\n", yytext[0]);}
+.       {
+            printf("unknown char '%c' at line: %d\n", yytext[0], yylineno);
+            yyterminate();
+        }
 %%
+
+void yyerror(char *a) {
+	fprintf(stdout, "%s at line: %d", a, yylineno);
+}
+

@@ -3,8 +3,8 @@
 #include <string.h>
 
 #define MAX_VAR_LENGTH 30
-#define VARS_START 60000
-#define TEMP_VARS_START 50000
+#define VARS_START 10
+#define TEMP_VARS_START 0
 
 int yylex();
 void yyerror(char *);
@@ -20,8 +20,12 @@ enum nodeType{
     byteRaw,
     addrRef,
     varRef,
+    addrSet,
+    varSet,
+    ptrRef,
+    ptrSet,
     assign,
-    addr
+    rawAsm,
 };
 struct ast{
     enum nodeType nodeType;
@@ -41,5 +45,5 @@ struct symtab{
 struct ast *newNode(enum nodeType type, struct ast* l, struct ast *r);
 struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
-int newSym(char *);
-int lookupSym(char *);
+int newSym(const char *);
+int lookupSym(const char *);

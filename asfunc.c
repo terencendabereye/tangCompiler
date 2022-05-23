@@ -16,82 +16,102 @@ struct ast *newTerminal(enum nodeType type, int value){
 int eval(struct ast *node) {
     static int depth = TEMP_VARS_START;
     int l,r;
+    int addr0, addr1;
     switch(node->nodeType) {
         case byteRaw:   // 'b' for byte
-            printf("SET @%d TO %d\n", depth++, ((struct terminalNode *)node)->value);
+            printf("input %d\n", ((struct terminalNode *)node)->value);
+            printf("mov RI GR%d\n", depth++);
             return depth-1;
             break;
-        case addr: //address set
-            return eval(node->l);
-            break;
-            ;
         case varRef: 
-            return ((struct terminalNode *)node)->value;
-            depth++;
+            addr0 = ((struct terminalNode *)node)->value & 0xff;
+            addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
+            printf("input %d\n", addr0);
+            printf("mov RI AD0\n");
+            printf("input %d\n", addr1);
+            printf("mov RI AD1\n");
+            printf("mov MEM GR%d\n", depth++);
+            return depth-1;
             break;
         case addrRef: //reference to address
-            l = eval(node->l);
-            depth--;
-            //printf("CPY @%d to @%d\n", l, depth++);
-            //return eval(node->l);
-            printf("READ @@%d TO @%d\n", l, depth++);
-            return depth-1;
+            printf("pending\n");
+            return 255;
+            break;
+        case ptrSet:
+            addr0 = ((struct terminalNode *)node)->value & 0xff;
+            addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
+            printf("input %d\n", addr0);
+            printf("mov RI AD0\n");
+            printf("input %d\n", addr1);
+            printf("mov RI AD1\n");
+            return-1;
+        case varSet:
+            addr0 = ((struct terminalNode *)node)->value & 0xff;
+            addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
+            printf("input %d\n", addr0);
+            printf("mov RI AD0\n");
+            printf("input %d\n", addr1);
+            printf("mov RI AD1\n");
+            return -1;
             break;
         case addByte:   //add
             l = eval(node->l);
             r = eval(node->r);
-            depth -= 2;
-            printf("ADD @%d @%d @%d\n", l, r, depth++); 
+            printf("mov GR%d RX\n", l);
+            depth--;
+            printf("mov GR%d RY\n", r);
+            depth--;
+            printf("add\n");
+            printf("mov RA GR%d\n", depth++);
             return depth-1;
             break;
         case subByte:
             l = eval(node->l);
             r = eval(node->r);
-            depth -= 2;
-            printf("SUB @%d @%d @%d\n", l, r, depth++); 
+            printf("mov GR%d RX\n", l);
+            depth--;
+            printf("mov GR%d RY\n", r);
+            depth--;
+            printf("sub\n");
+            printf("mov RA GR%d\n", depth++);
             return depth-1;
             break;
         case bitAnd:
-            l = eval(node->l);
-            r = eval(node->r);
-            depth -= 2;
-            printf("AND @%d @%d @%d\n", l, r, depth++); 
-            return depth-1;
+            // pending
+            printf("pending\n");
+            return 255;
             break;
         case bitOr:
-            l = eval(node->l);
-            r = eval(node->r);
-            depth -= 2;
-            printf("OR @%d @%d @%d\n", l, r, depth++); 
-            return depth-1;
+            // pending
+            printf("pending\n");
+            return 255;
             break;
         case bitXor:
-            l = eval(node->l);
-            r = eval(node->r);
-            depth -= 2;
-            printf("XOR @%d @%d @%d\n", l, r, depth++); 
-            return depth-1;
+            // pending
+            printf("pending\n");
+            return 255;
             break;
         case bitNot:
-            l = eval(node->l);
-            depth--;
-            printf("NOT @%d @%d\n", l, depth++); 
-            return depth-1;
+            // pending
+            printf("pending\n");
+            return 255;
             break;
         case assign:
-            printf("WRITE @%d TO @@%d\n", eval(node->r), eval(node->l)); //write
-            depth -= 2;
+            r = eval(node->r);
+            eval(node->l);
+            printf("mov GR%d MEM\n", r);
+            depth--;
             return -1;
             break;
         default:
             printf("Node error: %d\n", node->nodeType);
-            return 0xff;
+            return 0x255;
     }
 }
-static struct symtab *symbolTable = NULL;
-int newSym(char *a){
+struct symtab *symbolTable = NULL;
+int newSym(const char *a){
     static int currentAddress = VARS_START;
-    if (!symbolTable) {
+    if (symbolTable == NULL) {
         symbolTable = malloc(sizeof(struct symtab));
         symbolTable->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
         strcpy(symbolTable->name, a);
@@ -102,20 +122,25 @@ int newSym(char *a){
         while (cur->next != NULL) {
             cur = cur->next;
         }
+        
+        cur->next = malloc(sizeof(char)*MAX_VAR_LENGTH);
+        cur = cur->next;
+        cur->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
         strcpy(cur->name, a);
         cur->address = currentAddress++;
         cur->next = NULL;
     }
     return currentAddress-1;
 }
-int lookupSym(char *a) {
+int lookupSym(const char *a) {
     struct symtab *cur = symbolTable;
-    while((strcmp(cur->name,a))) {
-        if (cur->next == NULL){
-            return -1;
-        } else {
-            cur = cur->next;
+    if (cur == NULL) return -1;
+
+    do {
+        if (!strcmp(cur->name,a)) {
+            return cur->address;
         }
-    }
-    return cur->address;
+        cur = cur->next;
+    } while (cur!=NULL);
+    return -1;
 }

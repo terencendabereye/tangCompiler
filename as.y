@@ -8,16 +8,17 @@
 	struct ast *tree;
 }
 
-%left '='
+%right '='
 %left '+'
 %left '-'
 %left '^'
 %left '&'
 %left '|'
 %nonassoc '!'
+%nonassoc '('
 
 %token <i> DEC HEX BIN ID
-
+%type <i> ptr_x16
 %type <tree> statement expression value address reference 
 
 %%
@@ -36,8 +37,8 @@ expression: value						{$$ = $1;}
 | expression '^' expression				{$$ = newNode(bitXor, $1, $3);}
 | '!' expression						{$$ = newNode(bitNot, $2, NULL);}
 ;
-address: '@' '(' expression ')'			{$$ = newNode('@', $3, NULL);}
-| ID									{$$ = newTerminal(varRef, $1);}
+address: '@' '(' ptr_x16 ')'			{$$ = newTerminal(ptrSet, $3);}
+| ID									{$$ = newTerminal(varSet, $1);}
 ;
 reference: '@''@' '(' expression ')'	{$$ = newNode(addrRef, $4, NULL);}
 | ID									{$$ = newTerminal(varRef, $1);}	
@@ -45,6 +46,10 @@ reference: '@''@' '(' expression ')'	{$$ = newNode(addrRef, $4, NULL);}
 value: DEC 								{$$ = newTerminal(byteRaw, $1);}
 | BIN									{$$ = newTerminal(byteRaw, $1);}
 | HEX									{$$ = newTerminal(byteRaw, $1);}
+;
+ptr_x16: DEC							{$$ = $1;}
+| BIN									{$$ = $1;}
+| HEX									{$$ = $1;}
 ;
 %% 
 
@@ -59,7 +64,4 @@ int main(int argc, char **argv) {
 	}
 	
 	return 0;
-}
-void yyerror(char *a) {
-	fprintf(stderr, "%s", a);
 }
