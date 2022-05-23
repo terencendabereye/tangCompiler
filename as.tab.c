@@ -1348,7 +1348,7 @@ yyreduce:
 
   case 4:
 #line 27 "as.y"
-    {(yyval.tree) = newNode('=', (yyvsp[(1) - (4)].tree), (yyvsp[(3) - (4)].tree));;}
+    {(yyval.tree) = newNode(assign, (yyvsp[(1) - (4)].tree), (yyvsp[(3) - (4)].tree));;}
     break;
 
   case 5:
@@ -1368,32 +1368,32 @@ yyreduce:
 
   case 8:
 #line 32 "as.y"
-    {(yyval.tree) = newNode('+', (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
+    {(yyval.tree) = newNode(addByte, (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
     break;
 
   case 9:
 #line 33 "as.y"
-    {(yyval.tree) = newNode('-', (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
+    {(yyval.tree) = newNode(subByte, (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
     break;
 
   case 10:
 #line 34 "as.y"
-    {(yyval.tree) = newNode('&', (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
+    {(yyval.tree) = newNode(bitAnd, (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
     break;
 
   case 11:
 #line 35 "as.y"
-    {(yyval.tree) = newNode('|', (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
+    {(yyval.tree) = newNode(bitOr, (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
     break;
 
   case 12:
 #line 36 "as.y"
-    {(yyval.tree) = newNode('^', (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
+    {(yyval.tree) = newNode(bitXor, (yyvsp[(1) - (3)].tree), (yyvsp[(3) - (3)].tree));;}
     break;
 
   case 13:
 #line 37 "as.y"
-    {(yyval.tree) = newNode('!', (yyvsp[(2) - (2)].tree), NULL);;}
+    {(yyval.tree) = newNode(bitNot, (yyvsp[(2) - (2)].tree), NULL);;}
     break;
 
   case 14:
@@ -1403,32 +1403,32 @@ yyreduce:
 
   case 15:
 #line 40 "as.y"
-    {(yyval.tree) = newTerminal('v', (yyvsp[(1) - (1)].i));;}
+    {(yyval.tree) = newTerminal(varRef, (yyvsp[(1) - (1)].i));;}
     break;
 
   case 16:
 #line 42 "as.y"
-    {(yyval.tree) = newNode('a', (yyvsp[(4) - (5)].tree), NULL);;}
+    {(yyval.tree) = newNode(addrRef, (yyvsp[(4) - (5)].tree), NULL);;}
     break;
 
   case 17:
 #line 43 "as.y"
-    {(yyval.tree) = newTerminal('v', (yyvsp[(1) - (1)].i));;}
+    {(yyval.tree) = newTerminal(varRef, (yyvsp[(1) - (1)].i));;}
     break;
 
   case 18:
 #line 45 "as.y"
-    {(yyval.tree) = newTerminal('b', (yyvsp[(1) - (1)].i));;}
+    {(yyval.tree) = newTerminal(byteRaw, (yyvsp[(1) - (1)].i));;}
     break;
 
   case 19:
 #line 46 "as.y"
-    {(yyval.tree) = newTerminal('b', (yyvsp[(1) - (1)].i));;}
+    {(yyval.tree) = newTerminal(byteRaw, (yyvsp[(1) - (1)].i));;}
     break;
 
   case 20:
 #line 47 "as.y"
-    {(yyval.tree) = newTerminal('b', (yyvsp[(1) - (1)].i));;}
+    {(yyval.tree) = newTerminal(byteRaw, (yyvsp[(1) - (1)].i));;}
     break;
 
 
