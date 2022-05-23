@@ -24,27 +24,27 @@
 program:
 | program statement 					{eval($2);}
 ;
-statement: address '=' expression ';'	{$$ = newNode('=', $1, $3);}	
+statement: address '=' expression ';'	{$$ = newNode(assign, $1, $3);}	
 ;
 expression: value						{$$ = $1;}
 | reference								{$$ = $1;}
 | '(' expression ')'					{$$ = $2;}
-| expression '+' expression				{$$ = newNode('+', $1, $3);}
-| expression '-' expression				{$$ = newNode('-', $1, $3);}
-| expression '&' expression				{$$ = newNode('&', $1, $3);}
-| expression '|' expression				{$$ = newNode('|', $1, $3);}
-| expression '^' expression				{$$ = newNode('^', $1, $3);}
-| '!' expression						{$$ = newNode('!', $2, NULL);}
+| expression '+' expression				{$$ = newNode(addByte, $1, $3);}
+| expression '-' expression				{$$ = newNode(subByte, $1, $3);}
+| expression '&' expression				{$$ = newNode(bitAnd, $1, $3);}
+| expression '|' expression				{$$ = newNode(bitOr, $1, $3);}
+| expression '^' expression				{$$ = newNode(bitXor, $1, $3);}
+| '!' expression						{$$ = newNode(bitNot, $2, NULL);}
 ;
 address: '@' '(' expression ')'			{$$ = newNode('@', $3, NULL);}
-| ID									{$$ = newTerminal('v', $1);}
+| ID									{$$ = newTerminal(varRef, $1);}
 ;
-reference: '@''@' '(' expression ')'	{$$ = newNode('a', $4, NULL);}
-| ID									{$$ = newTerminal('v', $1);}	
+reference: '@''@' '(' expression ')'	{$$ = newNode(addrRef, $4, NULL);}
+| ID									{$$ = newTerminal(varRef, $1);}	
 ;
-value: DEC 								{$$ = newTerminal('b', $1);}
-| BIN									{$$ = newTerminal('b', $1);}
-| HEX									{$$ = newTerminal('b', $1);}
+value: DEC 								{$$ = newTerminal(byteRaw, $1);}
+| BIN									{$$ = newTerminal(byteRaw, $1);}
+| HEX									{$$ = newTerminal(byteRaw, $1);}
 ;
 %% 
 

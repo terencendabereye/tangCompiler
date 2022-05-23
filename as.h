@@ -10,13 +10,26 @@ int yylex();
 void yyerror(char *);
 void yyrestart(FILE *);
 
+enum nodeType{
+    addByte,
+    subByte,
+    bitAnd,
+    bitOr,
+    bitXor,
+    bitNot,
+    byteRaw,
+    addrRef,
+    varRef,
+    assign,
+    addr
+};
 struct ast{
-    char nodeType;
+    enum nodeType nodeType;
     struct ast *l;
     struct ast *r;
 };
 struct terminalNode{
-    char nodeType;
+    enum nodeType nodeType;
     int value;
 };
 struct symtab{
@@ -25,8 +38,8 @@ struct symtab{
     struct symtab *next;
 };
 
-struct ast *newNode(char type, struct ast* l, struct ast *r);
-struct ast *newTerminal(char type, int value);
+struct ast *newNode(enum nodeType type, struct ast* l, struct ast *r);
+struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
 int newSym(char *);
 int lookupSym(char *);
