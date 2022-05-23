@@ -845,10 +845,10 @@ YY_RULE_SETUP
 {
         if (lookupSym(yytext)==-1){
             yylval.i = newSym(yytext);
-            printf("new var********* %s *\n", yytext);
+            //printf("new var********* %s *\n", yytext);
         } else {
             yylval.i = lookupSym(yytext);
-            printf("existing var********** %s *\n", yytext);
+            //printf("existing var********** %s *\n", yytext);
         }
         return ID;
     }

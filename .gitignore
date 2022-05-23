@@ -1,2 +1,5 @@
 .vscode
 .DS_Store
+*.tab.c
+*.yy.c
+*.tab.h
