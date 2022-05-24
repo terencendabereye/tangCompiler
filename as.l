@@ -42,9 +42,9 @@
         }
         return ID;
     }
-$$.*    {
+$.*    {
             //printf("%s\n", yytext);
-            for (int i=2; i<yyleng; i++) {
+            for (int i=1; i<yyleng; i++) {
                 fprintf(yyout, "%c", yytext[i]);
             }
             fprintf(yyout, "\n");

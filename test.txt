@@ -1,8 +1,7 @@
-$$.start:
+$_print:
+$mov RM RO0
+$out
+
+$.start:
 a = 100;
-b = 2;
-c = 432;
-a = 71;
-d = 31;
-c = 2;
-$$.end
+a = a+0xf;
