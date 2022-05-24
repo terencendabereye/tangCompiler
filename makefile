@@ -1,4 +1,5 @@
 TESTFILE:=test.txt
+OUTFILE:=out.txt
 
 .PHONY: test clean build all
 all: compiler
@@ -9,7 +10,7 @@ compiler: as.y as.l asfunc.c as.h
 	cc -o $@ as.tab.c lex.yy.c asfunc.c
 
 test: compiler
-	./compiler $(TESTFILE)
+	./compiler $(TESTFILE) $(OUTFILE)
 
 clean: *.tab.c *.tab.h *.yy.c
 	trash $^ 

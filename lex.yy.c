@@ -859,9 +859,9 @@ YY_RULE_SETUP
 {
             //printf("%s\n", yytext);
             for (int i=2; i<yyleng; i++) {
-                printf("%c", yytext[i]);
+                fprintf(yyout, "%c", yytext[i]);
             }
-            printf("\n");
+            fprintf(yyout, "\n");
         }
 	YY_BREAK
 case 20:
@@ -884,7 +884,7 @@ case 23:
 YY_RULE_SETUP
 #line 55 "as.l"
 {
-            printf("unknown char '%c' at line: %d\n", yytext[0], yylineno);
+            fprintf(yyout, "unknown char '%c' at line: %d\n", yytext[0], yylineno);
             yyterminate();
         }
 	YY_BREAK

@@ -1,3 +1,6 @@
+#ifndef _AS_H
+#define _AS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +12,8 @@
 int yylex();
 void yyerror(char *);
 void yyrestart(FILE *);
+int yyparse();
+extern FILE *yyout;
 
 enum nodeType{
     addByte,
@@ -47,3 +52,4 @@ struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
 int newSym(const char *);
 int lookupSym(const char *);
+#endif
