@@ -150,7 +150,12 @@ int main(int argc, char **argv) {
 	FILE *f;
     
     if (argc<2) {
-        yyerror("must enter file\n");
+        fflush(stdout);
+        fflush(stderr);
+        printf("You must specify a source folder\n");
+        printf("Usage: tang <source_file> <output_file>\n");
+        printf("\ttang <source_file>   outputs to stdout\n");
+        return 1;
     }
     if (argc==3) {
         yyout = fopen(argv[2], "w");

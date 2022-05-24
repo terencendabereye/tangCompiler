@@ -59,6 +59,6 @@ $$.*    {
 %%
 
 void yyerror(char *a) {
-	fprintf(stdout, "%s at line: %d", a, yylineno);
+	fprintf(stdout, "%s at line: %d\n", a, yylineno);
 }
 
