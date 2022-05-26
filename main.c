@@ -1,25 +1,61 @@
 #include "as.h"
-  
+#include <unistd.h>
+
 int main(int argc, char **argv) {
-	FILE *f;
+	FILE *f_src;
+	FILE *f_out;
+    int flag_src, flag_out;
+    char *outpath;
+    char *srcpath;
+    char c;
+    flag_out = flag_src = 0;
     
-    if (argc<2) {
-        fflush(stdout);
-        fflush(stderr);
-        printf("You must specify a source folder\n");
-        printf("Usage:\ttang <source_file> <output_file>\n");
-        printf("\ttang <source_file>   outputs to stdout\n");
-        return 1;
+    while ((c=getopt(argc, argv, "s:o::")) !=  -1) {
+        switch (c){
+            case 'o':
+                outpath = optarg;
+                flag_out = 1;
+                break;
+            case 's':
+                srcpath = optarg;
+                flag_src = 1;
+                break;
+            case '?':
+                fprintf(stderr, "option -%c not recognised\n", optopt);
+                break;
+            default:
+                abort();
+                break;
+        }
     }
-    if (argc==3) {
-        yyout = fopen(argv[2], "w");
-        //printf("path: %s\n", argv[2]);
-    }
-    if ((f=fopen(argv[1], "r"))) {
-        compile(f); 
+
+    //printf("%d\n", optind);
+
+    if (flag_out) {
+        f_out = fopen(outpath, "w");
+        yyout = f_out;
     } else {
-        yyerror("File not found\n");
+        yyout = stdout;
     }
-	
+
+    if (!flag_src && (argc > 1)) {
+        srcpath = argv[optind];
+        flag_src = 1;
+    } else {
+        fprintf(stderr, "> no source provided\n");
+        exit(1);
+    }
+
+    if (!flag_src) {
+        fprintf(stderr, "> no source provided\n");
+        exit(1);
+    } else {
+        if((f_src = fopen(srcpath, "r"))) flag_src = 1;
+    }
+
+    compile(f_src);
+    fclose(f_out);
+    fclose(f_src);
+    	
 	return 0;
 }
