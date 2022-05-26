@@ -1667,16 +1667,4 @@ yyreturn:
 #line 54 "as.y"
  
 
-int main(int argc, char **argv) {
-	FILE *f;
-	if (argc>1) {
-		if ((f=fopen(argv[1], "r"))) {
-			yyrestart(f);
-			yyparse();
-			fclose(f); 
-		}
-	}
-	
-	return 0;
-}
 

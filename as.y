@@ -53,15 +53,3 @@ ptr_x16: DEC							{$$ = $1;}
 ;
 %% 
 
-int main(int argc, char **argv) {
-	FILE *f;
-	if (argc>1) {
-		if ((f=fopen(argv[1], "r"))) {
-			yyrestart(f);
-			yyparse();
-			fclose(f); 
-		}
-	}
-	
-	return 0;
-}

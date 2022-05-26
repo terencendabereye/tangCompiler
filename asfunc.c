@@ -19,92 +19,92 @@ int eval(struct ast *node) {
     int addr0, addr1;
     switch(node->nodeType) {
         case byteRaw:   // 'b' for byte
-            printf("input %d\n", ((struct terminalNode *)node)->value);
-            printf("mov RI GR%d\n", depth++);
+            fprintf(yyout, "input %d\n", ((struct terminalNode *)node)->value);
+            fprintf(yyout, "mov RI GR%d\n", depth++);
             return depth-1;
             break;
         case varRef: 
             addr0 = ((struct terminalNode *)node)->value & 0xff;
             addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
-            printf("input %d\n", addr0);
-            printf("mov RI AD0\n");
-            printf("input %d\n", addr1);
-            printf("mov RI AD1\n");
-            printf("mov MEM GR%d\n", depth++);
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "mov MEM GR%d\n", depth++);
             return depth-1;
             break;
         case addrRef: //reference to address
-            printf("pending\n");
+            fprintf(yyout, "pending\n");
             return 255;
             break;
         case ptrSet:
             addr0 = ((struct terminalNode *)node)->value & 0xff;
             addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
-            printf("input %d\n", addr0);
-            printf("mov RI AD0\n");
-            printf("input %d\n", addr1);
-            printf("mov RI AD1\n");
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
             return-1;
         case varSet:
             addr0 = ((struct terminalNode *)node)->value & 0xff;
             addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
-            printf("input %d\n", addr0);
-            printf("mov RI AD0\n");
-            printf("input %d\n", addr1);
-            printf("mov RI AD1\n");
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
             return -1;
             break;
         case addByte:   //add
             l = eval(node->l);
             r = eval(node->r);
-            printf("mov GR%d RX\n", l);
+            fprintf(yyout, "mov GR%d RX\n", l);
             depth--;
-            printf("mov GR%d RY\n", r);
+            fprintf(yyout, "mov GR%d RY\n", r);
             depth--;
-            printf("add\n");
-            printf("mov RA GR%d\n", depth++);
+            fprintf(yyout, "add\n");
+            fprintf(yyout, "mov RA GR%d\n", depth++);
             return depth-1;
             break;
         case subByte:
             l = eval(node->l);
             r = eval(node->r);
-            printf("mov GR%d RX\n", l);
+            fprintf(yyout, "mov GR%d RX\n", l);
             depth--;
-            printf("mov GR%d RY\n", r);
+            fprintf(yyout, "mov GR%d RY\n", r);
             depth--;
-            printf("sub\n");
-            printf("mov RA GR%d\n", depth++);
+            fprintf(yyout, "sub\n");
+            fprintf(yyout, "mov RA GR%d\n", depth++);
             return depth-1;
             break;
         case bitAnd:
             // pending
-            printf("pending\n");
+            fprintf(yyout, "pending\n");
             return 255;
             break;
         case bitOr:
             // pending
-            printf("pending\n");
+            fprintf(yyout, "pending\n");
             return 255;
             break;
         case bitXor:
             // pending
-            printf("pending\n");
+            fprintf(yyout, "pending\n");
             return 255;
             break;
         case bitNot:
             // pending
-            printf("pending\n");
+            fprintf(yyout, "pending\n");
             return 255;
             break;
         case assign:
             r = eval(node->r);
             eval(node->l);
-            printf("mov GR%d MEM\n", r);
+            fprintf(yyout, "mov GR%d MEM\n", r);
             depth--;
             return -1;
             break;
         default:
-            printf("Node error: %d\n", node->nodeType);
+            fprintf(yyout, "Node error: %d\n", node->nodeType);
             return 0x255;
     }
 }
@@ -144,3 +144,11 @@ int lookupSym(const char *a) {
     } while (cur!=NULL);
     return -1;
 }
+
+void compile(FILE *source){
+    yyrestart(source);
+    yyparse();
+    fclose(source);
+}
+
+

@@ -1,19 +1,20 @@
 TESTFILE:=test.txt
+OUTFILE:=
 
 .PHONY: test clean build all
 all: compiler
 
-compiler: as.y as.l asfunc.c as.h
+tang: as.y as.l asfunc.c as.h main.c
 	bison -d as.y
 	flex as.l
-	cc -o $@ as.tab.c lex.yy.c asfunc.c
+	cc -o $@ as.tab.c lex.yy.c asfunc.c main.c
 
-test: compiler
-	./compiler $(TESTFILE)
+test: tang
+	./tang $(TESTFILE) $(OUTFILE)
 
 clean: *.tab.c *.tab.h *.yy.c
 	trash $^ 
 build:
 	bison -d as.y
 	flex as.l
-	cc -o compiler as.tab.c lex.yy.c asfunc.c
+	cc -o tang as.tab.c lex.yy.c asfunc.c main.c
