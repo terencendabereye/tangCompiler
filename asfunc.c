@@ -145,6 +145,12 @@ int lookupSym(const char *a) {
     return -1;
 }
 
+void compile(FILE *source){
+    yyrestart(source);
+    yyparse();
+    fclose(source);
+}
+
 
 int main(int argc, char **argv) {
 	FILE *f;
@@ -162,9 +168,7 @@ int main(int argc, char **argv) {
         //printf("path: %s\n", argv[2]);
     }
     if ((f=fopen(argv[1], "r"))) {
-        yyrestart(f);
-        yyparse();
-        fclose(f); 
+        compile(f); 
     } else {
         yyerror("File not found\n");
     }

@@ -52,4 +52,5 @@ struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
 int newSym(const char *);
 int lookupSym(const char *);
+void compile(FILE *);
 #endif
