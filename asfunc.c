@@ -109,52 +109,55 @@ int eval(struct ast *node) {
     }
 }
 
-int newSym(const char *a, struct symtab **list){
+int newSym(const char *a, struct symtab *table){
     static int currentAddress = VARS_START;
-    struct symtab * table = *list;
-    if (table == NULL) {
-        table = malloc(sizeof(struct symtab));
-        table->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
-        strcpy(table->name, a);
-        table->address = currentAddress++;
-        table->next = NULL;
-        *list = table;
-        //printf("%s: %d\n", table->name, table->address);
-    } else {
-        struct symtab *cur = table;
-        while (cur->next != NULL) {
-            cur = cur->next;
-        }
-        
-        cur->next = malloc(sizeof(char)*MAX_VAR_LENGTH);
+    
+    struct symtab *cur = table;
+    while (cur->next != NULL) {
         cur = cur->next;
-        cur->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
-        strcpy(cur->name, a);
-        cur->address = currentAddress++;
-        cur->next = NULL;
     }
-    return currentAddress-1;
+    
+    cur->next = malloc(sizeof(char)*MAX_VAR_LENGTH);
+    cur = cur->next;
+    cur->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
+    strcpy(cur->name, a);
+    cur->address = currentAddress++;
+    cur->next = NULL;
+
+    return cur->address;
 }
-int lookupSym(const char *a, struct symtab **table) {
-    struct symtab *cur = *table;
-    if (cur == NULL) return -1;
+int lookupSym(const char *a, struct symtab *table) {
+    struct symtab *cur = table;
+    if (cur->next == NULL) return -1;
 
     do {
+        cur = cur->next;
         if (!strcmp(cur->name,a)) {
             return cur->address;
         }
-        cur = cur->next;
-        printf("%s: %d\n", cur->name, cur->address);
-    } while (cur!=NULL);
+        //printf("%s: %d\n", cur->name, cur->address);
+    } while (cur->next != NULL);
     return -1;
 }
 
-struct symtab *varTable;
-struct symtab *labelTable;
+
+int newVar(const char *key){
+    return newSym(key, varTable);
+}
+int lookupVar(const char *key){
+    return lookupSym(key, varTable);
+}
+int newLabel(const char *key){
+    return newSym(key, labelTable);
+}
+int lookupLabel(const char *key){
+    return lookupSym(key, labelTable);
+}
 
 void compile(FILE *source){
-    varTable = NULL;
-    labelTable = NULL;
+    varTable = malloc(sizeof(struct symtab));
+    labelTable = malloc(sizeof(struct symtab));
+
     yyrestart(source);
     yyparse();
     fclose(source);

@@ -1,10 +1,11 @@
 %option noyywrap yylineno
+%x REPLACE_LABELS
 %{
     #include "as.h"
-    #import "as.tab.h"
+    #include "as.tab.h"
     void yyterminate();
-    struct symtab *varTable;
-    struct symtab *labelTable;
+    
+    
 %}
 
 %%
@@ -35,12 +36,13 @@
         return BIN;
     }
 [A-Za-z][A-Za-z0-9]*    {
-        if (lookupSym(yytext, &varTable)==-1){
-            yylval.i = newSym(yytext ,&varTable);
-            printf("new var********* %s *\n", yytext);
+        
+        if (lookupSym(yytext, varTable)==-1){
+            yylval.i = newSym(yytext ,varTable);
+            //printf("new var********* %s *\n", yytext);
         } else {
-            yylval.i = lookupSym(yytext, &varTable);
-            printf("existing var********** %s *\n", yytext);
+            yylval.i = lookupSym(yytext, varTable);
+            //printf("existing var********** %s *\n", yytext);
         }
         return ID;
     }
@@ -51,6 +53,8 @@ $.*    {
             }
             fprintf(yyout, "\n");
         }
+
+
 \n      {}
 [ \t]+  {}
 "//".+  {}   /*handle line comments*/
