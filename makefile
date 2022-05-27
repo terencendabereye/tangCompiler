@@ -1,5 +1,6 @@
 TESTFILE:=test.txt
 OUTFILE:=
+CCFLAGS:= -g
 
 .PHONY: test clean build all
 all: compiler
@@ -7,7 +8,7 @@ all: compiler
 tang: as.y as.l asfunc.c as.h main.c
 	bison -d as.y
 	flex as.l
-	cc -o $@ as.tab.c lex.yy.c asfunc.c main.c
+	cc -o $@ $(CCFLAGS) as.tab.c lex.yy.c asfunc.c main.c
 
 test: tang
 	./tang $(TESTFILE) $(OUTFILE)
@@ -17,4 +18,4 @@ clean: *.tab.c *.tab.h *.yy.c
 build:
 	bison -d as.y
 	flex as.l
-	cc -o tang as.tab.c lex.yy.c asfunc.c main.c
+	cc -o tang $(CCFLAGS) as.tab.c lex.yy.c asfunc.c main.c

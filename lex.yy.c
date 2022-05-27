@@ -497,8 +497,10 @@ char *yytext;
     #include "as.h"
     #import "as.tab.h"
     void yyterminate();
-#line 500 "lex.yy.c"
-#line 501 "lex.yy.c"
+    struct symtab *varTable;
+    struct symtab *labelTable;
+#line 502 "lex.yy.c"
+#line 503 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -715,9 +717,9 @@ YY_DECL
 		}
 
 	{
-#line 8 "as.l"
+#line 10 "as.l"
 
-#line 720 "lex.yy.c"
+#line 722 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -785,49 +787,49 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
-#line 10 "as.l"
-case 2:
-#line 11 "as.l"
-case 3:
 #line 12 "as.l"
-case 4:
+case 2:
 #line 13 "as.l"
-case 5:
+case 3:
 #line 14 "as.l"
-case 6:
+case 4:
 #line 15 "as.l"
-case 7:
+case 5:
 #line 16 "as.l"
-case 8:
+case 6:
 #line 17 "as.l"
-case 9:
+case 7:
 #line 18 "as.l"
-case 10:
+case 8:
 #line 19 "as.l"
-case 11:
+case 9:
 #line 20 "as.l"
-case 12:
+case 10:
 #line 21 "as.l"
-case 13:
+case 11:
 #line 22 "as.l"
+case 12:
+#line 23 "as.l"
+case 13:
+#line 24 "as.l"
 case 14:
 YY_RULE_SETUP
-#line 22 "as.l"
+#line 24 "as.l"
 {return yytext[0];}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 23 "as.l"
+#line 25 "as.l"
 {yylval.i = atoi(yytext); return DEC;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 24 "as.l"
+#line 26 "as.l"
 {char *ptr; yylval.i = strtol(yytext, &ptr, 16);return HEX;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 25 "as.l"
+#line 27 "as.l"
 {
         char *ptr; 
         char *out = malloc(sizeof(char) * yyleng);
@@ -841,21 +843,21 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 35 "as.l"
+#line 37 "as.l"
 {
-        if (lookupSym(yytext)==-1){
-            yylval.i = newSym(yytext);
-            //printf("new var********* %s *\n", yytext);
+        if (lookupSym(yytext, &varTable)==-1){
+            yylval.i = newSym(yytext ,&varTable);
+            printf("new var********* %s *\n", yytext);
         } else {
-            yylval.i = lookupSym(yytext);
-            //printf("existing var********** %s *\n", yytext);
+            yylval.i = lookupSym(yytext, &varTable);
+            printf("existing var********** %s *\n", yytext);
         }
         return ID;
     }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 45 "as.l"
+#line 47 "as.l"
 {
             //printf("%s\n", yytext);
             for (int i=1; i<yyleng; i++) {
@@ -867,22 +869,22 @@ YY_RULE_SETUP
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 52 "as.l"
+#line 54 "as.l"
 {}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 53 "as.l"
+#line 55 "as.l"
 {}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 54 "as.l"
+#line 56 "as.l"
 {}   /*handle line comments*/
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 55 "as.l"
+#line 57 "as.l"
 {
             fprintf(yyout, "unknown char '%c' at line: %d\n", yytext[0], yylineno);
             yyterminate();
@@ -890,10 +892,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 59 "as.l"
+#line 61 "as.l"
 ECHO;
 	YY_BREAK
-#line 896 "lex.yy.c"
+#line 898 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1910,7 +1912,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 59 "as.l"
+#line 61 "as.l"
 
 
 void yyerror(char *a) {

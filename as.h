@@ -50,7 +50,8 @@ struct symtab{
 struct ast *newNode(enum nodeType type, struct ast* l, struct ast *r);
 struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
-int newSym(const char *);
-int lookupSym(const char *);
+int newSym(const char *, struct symtab **);
+int lookupSym(const char *, struct symtab **);
 void compile(FILE *);
+
 #endif

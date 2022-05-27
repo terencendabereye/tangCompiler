@@ -108,17 +108,20 @@ int eval(struct ast *node) {
             return 0x255;
     }
 }
-struct symtab *symbolTable = NULL;
-int newSym(const char *a){
+
+int newSym(const char *a, struct symtab **list){
     static int currentAddress = VARS_START;
-    if (symbolTable == NULL) {
-        symbolTable = malloc(sizeof(struct symtab));
-        symbolTable->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
-        strcpy(symbolTable->name, a);
-        symbolTable->address = currentAddress++;
-        symbolTable->next = NULL;
+    struct symtab * table = *list;
+    if (table == NULL) {
+        table = malloc(sizeof(struct symtab));
+        table->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
+        strcpy(table->name, a);
+        table->address = currentAddress++;
+        table->next = NULL;
+        *list = table;
+        //printf("%s: %d\n", table->name, table->address);
     } else {
-        struct symtab *cur = symbolTable;
+        struct symtab *cur = table;
         while (cur->next != NULL) {
             cur = cur->next;
         }
@@ -132,8 +135,8 @@ int newSym(const char *a){
     }
     return currentAddress-1;
 }
-int lookupSym(const char *a) {
-    struct symtab *cur = symbolTable;
+int lookupSym(const char *a, struct symtab **table) {
+    struct symtab *cur = *table;
     if (cur == NULL) return -1;
 
     do {
@@ -141,14 +144,18 @@ int lookupSym(const char *a) {
             return cur->address;
         }
         cur = cur->next;
+        printf("%s: %d\n", cur->name, cur->address);
     } while (cur!=NULL);
     return -1;
 }
 
+struct symtab *varTable;
+struct symtab *labelTable;
+
 void compile(FILE *source){
+    varTable = NULL;
+    labelTable = NULL;
     yyrestart(source);
     yyparse();
     fclose(source);
 }
-
-

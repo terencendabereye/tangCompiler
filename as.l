@@ -3,6 +3,8 @@
     #include "as.h"
     #import "as.tab.h"
     void yyterminate();
+    struct symtab *varTable;
+    struct symtab *labelTable;
 %}
 
 %%
@@ -33,12 +35,12 @@
         return BIN;
     }
 [A-Za-z][A-Za-z0-9]*    {
-        if (lookupSym(yytext)==-1){
-            yylval.i = newSym(yytext);
-            //printf("new var********* %s *\n", yytext);
+        if (lookupSym(yytext, &varTable)==-1){
+            yylval.i = newSym(yytext ,&varTable);
+            printf("new var********* %s *\n", yytext);
         } else {
-            yylval.i = lookupSym(yytext);
-            //printf("existing var********** %s *\n", yytext);
+            yylval.i = lookupSym(yytext, &varTable);
+            printf("existing var********** %s *\n", yytext);
         }
         return ID;
     }
