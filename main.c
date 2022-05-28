@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
     char c;
     flag_out = flag_src = 0;
     
-    while ((c=getopt(argc, argv, "s:o::")) !=  -1) {
+    while ((c=getopt(argc, argv, "s:o:")) !=  -1) {
         switch (c){
             case 'o':
                 outpath = optarg;
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
     } else {
         if((f_src = fopen(srcpath, "r"))) flag_src = 1;
     }
-
+    
     compile(f_src, f_out);
     fclose(f_out);
     fclose(f_src);
