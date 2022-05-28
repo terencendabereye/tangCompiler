@@ -1,10 +1,8 @@
 %option noyywrap yylineno
-%x REPLACE_LABELS
 %{
-    #include "as.h"
-    #include "as.tab.h"
+    #include "cmp.h"
+    #include "cmp.tab.h"
     void yyterminate();
-    
     
 %}
 
@@ -53,7 +51,6 @@ $.*    {
             }
             fprintf(yyout, "\n");
         }
-
 
 \n      {}
 [ \t]+  {}

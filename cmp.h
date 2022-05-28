@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define MAX_VAR_LENGTH 30
-#define VARS_START 10
+#define VARS_START 0
 #define TEMP_VARS_START 0
 
 int yylex();
@@ -52,11 +52,7 @@ struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
 int newSym(const char *, struct symtab *);
 int lookupSym(const char *, struct symtab *);
-int newVar(const char *);
-int lookupVar(const char *);
-int newLabel(const char *);
-int lookupLabel(const char *);
-void compile(FILE *);
+void compile(FILE *, FILE *);
 
 struct symtab *varTable;
 struct symtab *labelTable;

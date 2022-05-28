@@ -1,4 +1,4 @@
-#include "as.h"
+#include "cmp.h"
 
 struct ast *newNode(enum nodeType type, struct ast* l, struct ast *r){
     struct ast *out = malloc(sizeof(struct ast));
@@ -61,7 +61,7 @@ int eval(struct ast *node) {
             depth--;
             fprintf(yyout, "mov GR%d RY\n", r);
             depth--;
-            fprintf(yyout, "add\n");
+            fprintf(yyout, "compute add\n");
             fprintf(yyout, "mov RA GR%d\n", depth++);
             return depth-1;
             break;
@@ -141,24 +141,12 @@ int lookupSym(const char *a, struct symtab *table) {
 }
 
 
-int newVar(const char *key){
-    return newSym(key, varTable);
-}
-int lookupVar(const char *key){
-    return lookupSym(key, varTable);
-}
-int newLabel(const char *key){
-    return newSym(key, labelTable);
-}
-int lookupLabel(const char *key){
-    return lookupSym(key, labelTable);
-}
-
-void compile(FILE *source){
+void compile(FILE *source, FILE *output){
     varTable = malloc(sizeof(struct symtab));
     labelTable = malloc(sizeof(struct symtab));
 
     yyrestart(source);
+    yyout = output;
     yyparse();
     fclose(source);
 }

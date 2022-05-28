@@ -1,23 +1,6 @@
-.start:
-input 100
+input 1
 mov RI GR0
-input 10
-mov RI AD0
 input 0
-mov RI AD1
-mov GR0 MEM
-input 10
-mov RI AD0
-input 0
-mov RI AD1
-mov MEM GR0
-input 15
-mov RI GR1
-mov GR0 RX
-mov GR1 RY
-add
-mov RA GR0
-input 10
 mov RI AD0
 input 0
 mov RI AD1

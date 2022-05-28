@@ -1,6 +1,6 @@
 
 %{
-	#include "as.h"
+	#include "cmp.h"
 %}
 
 %union {

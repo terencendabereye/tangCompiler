@@ -1,4 +1,4 @@
-#include "as.h"
+#include "cmp.h"
 #include <unistd.h>
 
 int main(int argc, char **argv) {
@@ -33,17 +33,13 @@ int main(int argc, char **argv) {
 
     if (flag_out) {
         f_out = fopen(outpath, "w");
-        yyout = f_out;
     } else {
-        yyout = stdout;
+        f_out = stdout;
     }
 
     if (!flag_src && (argc > 1)) {
         srcpath = argv[optind];
         flag_src = 1;
-    } else {
-        fprintf(stderr, "> no source provided\n");
-        exit(1);
     }
 
     if (!flag_src) {
@@ -53,9 +49,11 @@ int main(int argc, char **argv) {
         if((f_src = fopen(srcpath, "r"))) flag_src = 1;
     }
 
-    compile(f_src);
+    compile(f_src, f_out);
     fclose(f_out);
     fclose(f_src);
+
+    
     	
 	return 0;
 }
