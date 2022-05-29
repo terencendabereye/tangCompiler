@@ -17,6 +17,7 @@ int eval(struct ast *node) {
     static int depth = TEMP_VARS_START;
     int l,r;
     int addr0, addr1;
+    if (node == NULL) return 255;   //do nothing
     switch(node->nodeType) {
         case byteRaw:   // 'b' for byte
             fprintf(yyout, "input %d\n", ((struct terminalNode *)node)->value);
@@ -34,25 +35,31 @@ int eval(struct ast *node) {
             return depth-1;
             break;
         case addrRef: //reference to address
-            fprintf(yyout, "pending\n");
-            return 255;
+            addr0 = ((struct terminalNode *)node)->value & 0xff;
+            addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "mov MEM GR%d\n", depth++);
+            return depth-1;
             break;
-        case ptrSet:
+        case ptrSet: // sets address register
             addr0 = ((struct terminalNode *)node)->value & 0xff;
             addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
             fprintf(yyout, "input %d\n", addr0);
             fprintf(yyout, "mov RI AD0\n");
             fprintf(yyout, "input %d\n", addr1);
             fprintf(yyout, "mov RI AD1\n");
-            return-1;
-        case varSet:
+            return 255;
+        case varSet:  // sets address register
             addr0 = ((struct terminalNode *)node)->value & 0xff;
             addr1 = (((struct terminalNode *)node)->value & 0xff00)>>8;
             fprintf(yyout, "input %d\n", addr0);
             fprintf(yyout, "mov RI AD0\n");
             fprintf(yyout, "input %d\n", addr1);
             fprintf(yyout, "mov RI AD1\n");
-            return -1;
+            return 255;
             break;
         case addByte:   //add
             l = eval(node->l);
@@ -72,7 +79,7 @@ int eval(struct ast *node) {
             depth--;
             fprintf(yyout, "mov GR%d RY\n", r);
             depth--;
-            fprintf(yyout, "sub\n");
+            fprintf(yyout, "compute sub\n");
             fprintf(yyout, "mov RA GR%d\n", depth++);
             return depth-1;
             break;
@@ -103,6 +110,31 @@ int eval(struct ast *node) {
             depth--;
             return -1;
             break;
+        case byteout:
+            l = eval(node->l);
+            fprintf(yyout, "mov GR%d RO\n", l);
+            depth--;
+            fprintf(yyout, "output\n");
+            return 255;
+            break;
+
+        case jmp:
+            eval(node->l); 
+            fprintf(yyout, "jump\n");
+            return 255;
+            break;
+        case jmplbl:
+            l = ((struct terminalNode *)node)->value;
+            fprintf(yyout, "input <%d,0>\n", l);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input <%d,1>\n", l);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "jump\n");
+            return 255;
+            break;
+        case labelSet:
+            fprintf(yyout, "<%d>", ((struct terminalNode *)node)->value);
+            return 255;
         default:
             fprintf(yyout, "Node error: %d\n", node->nodeType);
             return 0x255;
@@ -117,7 +149,7 @@ int newSym(const char *a, struct symtab *table){
         cur = cur->next;
     }
     
-    cur->next = malloc(sizeof(char)*MAX_VAR_LENGTH);
+    cur->next = malloc(sizeof(struct symtab));
     cur = cur->next;
     cur->name = malloc(sizeof(char)*MAX_VAR_LENGTH);
     strcpy(cur->name, a);
@@ -135,7 +167,7 @@ int lookupSym(const char *a, struct symtab *table) {
         if (!strcmp(cur->name,a)) {
             return cur->address;
         }
-        //printf("%s: %d\n", cur->name, cur->address);
+        printf("%s: %d\n", cur->name, cur->address);
     } while (cur->next != NULL);
     return -1;
 }
@@ -144,7 +176,7 @@ int lookupSym(const char *a, struct symtab *table) {
 void compile(FILE *source, FILE *output){
     varTable = malloc(sizeof(struct symtab));
     labelTable = malloc(sizeof(struct symtab));
-
+    
     yyrestart(source);
     yyout = output;
     yyparse();

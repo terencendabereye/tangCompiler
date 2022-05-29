@@ -31,6 +31,11 @@ enum nodeType{
     ptrSet,
     assign,
     rawAsm,
+    jmp,
+    jmplbl,
+    byteout,
+    labelSet,
+    labelReplace,
 };
 struct ast{
     enum nodeType nodeType;

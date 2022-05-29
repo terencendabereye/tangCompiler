@@ -1,4 +1,5 @@
 %option noyywrap yylineno
+
 %{
     #include "cmp.h"
     #include "cmp.tab.h"
@@ -21,6 +22,8 @@
 "!" |
 "^" |
 "}" {return yytext[0];}
+goto {return JMP;}
+byteout {return BYTEOUT;}
 [0-9]+  {yylval.i = atoi(yytext); return DEC;}
 0x[0-9a-fA-F]+ {char *ptr; yylval.i = strtol(yytext, &ptr, 16);return HEX;}
 0b[0-9a-fA-F]+ {
@@ -34,7 +37,6 @@
         return BIN;
     }
 [A-Za-z][A-Za-z0-9]*    {
-        
         if (lookupSym(yytext, varTable)==-1){
             yylval.i = newSym(yytext ,varTable);
             //printf("new var********* %s *\n", yytext);
@@ -43,6 +45,14 @@
             //printf("existing var********** %s *\n", yytext);
         }
         return ID;
+    }
+"."[A-Za-z][A-Za-z0-9]+    {
+        if(lookupSym(yytext, labelTable)==-1){
+            yylval.i = newSym(yytext, labelTable);
+        } else {
+            yylval.i = lookupSym(yytext, labelTable);
+        }
+        return LABEL;
     }
 $.*    {
             //printf("%s\n", yytext);
@@ -56,7 +66,7 @@ $.*    {
 [ \t]+  {}
 "//".+  {}   /*handle line comments*/
 .       {
-            fprintf(yyout, "unknown char '%c' at line: %d\n", yytext[0], yylineno);
+            fprintf(yyout, "compiler: unknown char '%c' at line: %d\n", yytext[0], yylineno);
             yyterminate();
         }
 %%

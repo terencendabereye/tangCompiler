@@ -6,6 +6,7 @@
 %union {
 	int i;
 	struct ast *tree;
+	char *s;
 }
 
 %right '='
@@ -17,7 +18,8 @@
 %nonassoc '!'
 %nonassoc '('
 
-%token <i> DEC HEX BIN ID
+%token JMP BYTEOUT
+%token <i> DEC HEX BIN ID LABEL
 %type <i> ptr_x16
 %type <tree> statement expression value address reference 
 
@@ -26,6 +28,10 @@ program:
 | program statement 					{eval($2);}
 ;
 statement: address '=' expression ';'	{$$ = newNode(assign, $1, $3);}	
+| JMP '(' address ')' ';'				{$$ = newNode(jmp, $3, NULL);}
+| JMP '(' LABEL ')' ';'					{$$ = newTerminal(jmplbl, $3);}
+| BYTEOUT '(' expression ')' ';'		{$$ = newNode(byteout, $3, NULL);}
+| LABEL ';'								{$$ = newTerminal(labelSet, $1);}
 ;
 expression: value						{$$ = $1;}
 | reference								{$$ = $1;}
@@ -40,7 +46,7 @@ expression: value						{$$ = $1;}
 address: '@' '(' ptr_x16 ')'			{$$ = newTerminal(ptrSet, $3);}
 | ID									{$$ = newTerminal(varSet, $1);}
 ;
-reference: '@''@' '(' expression ')'	{$$ = newNode(addrRef, $4, NULL);}
+reference: '@''@' '(' ptr_x16 ')'	{$$ = newTerminal(addrRef, $4);}
 | ID									{$$ = newTerminal(varRef, $1);}	
 ;
 value: DEC 								{$$ = newTerminal(byteRaw, $1);}
