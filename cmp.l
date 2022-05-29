@@ -25,6 +25,7 @@
 goto {return JMP;}
 byteout {return BYTEOUT;}
 [0-9]+  {yylval.i = atoi(yytext); return DEC;}
+'[ -~]'   {yylval.i = yytext[1]; return DEC;}
 0x[0-9a-fA-F]+ {char *ptr; yylval.i = strtol(yytext, &ptr, 16);return HEX;}
 0b[0-9a-fA-F]+ {
         char *ptr; 
@@ -45,7 +46,7 @@ byteout {return BYTEOUT;}
             //printf("existing var********** %s *\n", yytext);
         }
         return ID;
-    }
+    } 
 "."[A-Za-z][A-Za-z0-9]+    {
         if(lookupSym(yytext, labelTable)==-1){
             yylval.i = newSym(yytext, labelTable);

@@ -1,6 +1,6 @@
 TESTFILE:=test.txt
 OUTFILE:=
-CCFLAGS:= -g
+CCFLAGS:= 
 
 .PHONY: test clean build all
 all: compiler
@@ -23,7 +23,7 @@ build:
 
 	bison -d ./assembler/asm.y 
 	flex ./assembler/asm.l
-	clang $(CCARGS) -c ./assembler/lex.asm.c ./assembler/asm.tab.c ./assembler/asmfunc.c 
+	cc $(CCFLAGS) -c ./assembler/lex.asm.c ./assembler/asm.tab.c ./assembler/asmfunc.c 
 
 	bison -d cmp.y
 	flex cmp.l

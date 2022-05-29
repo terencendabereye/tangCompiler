@@ -167,7 +167,7 @@ int lookupSym(const char *a, struct symtab *table) {
         if (!strcmp(cur->name,a)) {
             return cur->address;
         }
-        printf("%s: %d\n", cur->name, cur->address);
+        //printf("%s: %d\n", cur->name, cur->address);
     } while (cur->next != NULL);
     return -1;
 }

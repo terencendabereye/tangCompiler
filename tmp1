@@ -1,11 +1,18 @@
-input 48
+input 97
 mov RI GR0
-input 0
+input 1
 mov RI AD0
 input 0
 mov RI AD1
 mov GR0 MEM
+input 1
+mov RI AD0
 input 0
+mov RI AD1
+mov MEM GR0
+mov GR0 RO
+output
+input 1
 mov RI AD0
 input 0
 mov RI AD1
@@ -16,7 +23,7 @@ mov GR0 RX
 mov GR1 RY
 compute add
 mov RA GR0
-input 0
+input 1
 mov RI AD0
 input 0
 mov RI AD1
