@@ -1,15 +1,43 @@
-input 97
+input 0
 mov RI GR0
 input 1
 mov RI AD0
 input 0
 mov RI AD1
 mov GR0 MEM
+input 48
+mov RI GR0
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov GR0 MEM
+input 60
+mov RI GR0
+mov GR0 RO
+output
 input 1
 mov RI AD0
 input 0
 mov RI AD1
 mov MEM GR0
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR1
+mov GR0 RX
+mov GR1 RY
+compute add
+mov RA GR0
+mov GR0 RO
+output
+input 62
+mov RI GR0
+mov GR0 RO
+output
+input 32
+mov RI GR0
 mov GR0 RO
 output
 input 1
@@ -28,7 +56,7 @@ mov RI AD0
 input 0
 mov RI AD1
 mov GR0 MEM
-input 14
+input 28
 mov RI AD0
 input 0
 mov RI AD1

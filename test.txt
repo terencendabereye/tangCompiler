@@ -1,6 +1,10 @@
 .start;
-    a = 'a';
+    a = 0;
+    asciiOffset = '0';
     .loop;
-        byteout(a);
+        byteout('<');
+        byteout(a+asciiOffset);
+        byteout('>');
+        byteout(' ');
         a = a+1;
         goto(.loop);

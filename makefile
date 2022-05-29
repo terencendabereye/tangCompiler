@@ -29,3 +29,4 @@ build:
 	flex cmp.l
 	flex ./labelReplacement/lr.l
 	cc -o tang $(CCFLAGS) cmp.tab.c lex.yy.c lex.lblrep.c cmpfunc.c main.c *.o
+	trash *.o
