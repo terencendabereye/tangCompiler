@@ -49,8 +49,17 @@ int main(int argc, char **argv) {
         if((f_src = fopen(srcpath, "r"))) flag_src = 1;
     }
     
-    compile(f_src, f_out);
+    FILE *f_tmp;
+
+    f_tmp = fopen("tmp", "w");
+    compile(f_src, f_tmp);
+    fclose(f_tmp);
+
+    f_tmp = fopen("tmp", "r");
+    replaceLabels(f_tmp, f_out);
+
     fclose(f_out);
+    fclose(f_tmp);
     fclose(f_src);
 
     

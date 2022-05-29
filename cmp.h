@@ -57,7 +57,8 @@ struct ast *newTerminal(enum nodeType type, int value);
 int eval(struct ast *node);
 int newSym(const char *, struct symtab *);
 int lookupSym(const char *, struct symtab *);
-void compile(FILE *, FILE *);
+void compile(FILE *in, FILE *out);
+void replaceLabels(FILE *in, FILE *out);
 
 struct symtab *varTable;
 struct symtab *labelTable;
