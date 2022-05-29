@@ -59,6 +59,7 @@ int newSym(const char *, struct symtab *);
 int lookupSym(const char *, struct symtab *);
 void compile(FILE *in, FILE *out);
 void replaceLabels(FILE *in, FILE *out);
+void assemble(FILE *source, FILE *output);
 
 struct symtab *varTable;
 struct symtab *labelTable;

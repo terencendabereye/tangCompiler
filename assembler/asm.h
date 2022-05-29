@@ -1,14 +1,14 @@
 #include <stdio.h>
 
 //FILE *yyout; 
-int yylex();
-int yyerror(char *);
-int yyparse();
-void yyrestart(FILE *);
+int asmlex();
+int asmerror(char *);
+int asmparse();
+void asmrestart(FILE *);
 void assemble(FILE *source, FILE *output);
 
-extern int yylineno;
-extern FILE *yyout;
+extern int asmlineno;
+extern FILE *asmout;
 
 enum command{
     noop=0,

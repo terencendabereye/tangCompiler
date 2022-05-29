@@ -50,16 +50,24 @@ int main(int argc, char **argv) {
     }
     
     FILE *f_tmp;
+    FILE *f_tmp1;
 
     f_tmp = fopen("tmp", "w");
     compile(f_src, f_tmp);
+    fclose(f_src);
     fclose(f_tmp);
 
     f_tmp = fopen("tmp", "r");
-    replaceLabels(f_tmp, f_out);
+    f_tmp1 = fopen("tmp1", "w");
+    replaceLabels(f_tmp, f_tmp1);
+    fclose(f_tmp);
+    fclose(f_tmp1);
+
+    f_tmp1 = fopen("tmp1", "r");
+    assemble(f_tmp1, f_out);
+    fclose(f_tmp1);
 
     fclose(f_out);
-    fclose(f_tmp);
     fclose(f_src);
 
     

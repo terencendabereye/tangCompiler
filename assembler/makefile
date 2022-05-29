@@ -1,4 +1,4 @@
-CCARGS:=-g -O0
+CCARGS:=
 .PHONY: build test bld_lib
 
 asm: asm.h asm.l asm.y asmfunc.c main.c
@@ -12,7 +12,7 @@ test: asm.h asm.l asm.y asmfunc.c main.c asm
 build: asm.h asm.l asm.y asmfunc.c main.c
 	bison -d asm.y 
 	flex asm.l
-	clang $(CCARGS) lex.yy.c asm.tab.c asmfunc.c main.c -o asm
+	clang $(CCARGS) lex.asm.c asm.tab.c asmfunc.c main.c -o asm
 
 bld_lib: asm.h asm.l asm.y asmfunc.c
 	bison -d asm.y 
