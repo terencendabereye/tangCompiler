@@ -1,5 +1,6 @@
 %option yylineno noyywrap
 %option prefix="lblrep"
+%x REPLACE
 %{
     #include <stdio.h>
     #include <stdlib.h>
@@ -20,6 +21,13 @@
     int getLb_a1(int index);
     void replaceLabels(FILE *, FILE *);
 
+    int shouldReplace;
+
+    //if (shouldReplace == 1) {
+    //    BEGIN REPLACE;
+    //} else {
+    //    BEGIN INITIAL;
+    //}
     struct labelList labels[MAX_NUM_LABEL] = {0};
 %}
 
@@ -38,7 +46,8 @@
     //fprintf(yyout, "index: %d, line %d\n", index, adr);
 
 }
-"<"[0-9]+,[0-9]">" {
+<REPLACE>"<"[0-9]+,[0-9]">" {
+    //fprintf(yyout, "<rep>");
     int index;
     int adr;
     char *tmpNum = yytext;
@@ -56,8 +65,11 @@
         fprintf(yyout, "%d", getLb_a1(index));
     }
 }
+<INITIAL><<EOF>> {BEGIN REPLACE;}
 \n {fprintf(yyout, "%c", yytext[0]);}
 . {fprintf(yyout, "%c", yytext[0]);}
+<REPLACE>.  {fprintf(yyout, "%c", yytext[0]);}
+<REPLACE><<EOF>> {yyterminate();}
 %%
 
 
@@ -75,7 +87,17 @@ int getLb_a1(int index){
 }
 
 void replaceLabels(FILE *in, FILE *out){   //like main()
-    yyout = out;
+    char *tmpPath = "repTmp";
+    FILE *tmp;
+    tmp = fopen(tmpPath, "w");
     yyrestart(in);
+    yyout = tmp;
     yylex();
+    fclose(tmp);
+
+    tmp = fopen(tmpPath, "r");
+    yyrestart(tmp);
+    yyout = out;
+    yylex();
+    fclose(tmp);
 }

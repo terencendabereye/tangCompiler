@@ -21,6 +21,8 @@
 "|" |
 "!" |
 "^" |
+"<" |
+">" |
 "}" {return yytext[0];}
 goto {return JMP;}
 byteout {return BYTEOUT;}

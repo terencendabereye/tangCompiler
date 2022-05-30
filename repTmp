@@ -3,12 +3,12 @@ mov RI AD0
 input <0,1>
 mov RI AD1
 jump
-<1>input <1,0>
+input <1,0>
 mov RI AD0
 input <1,1>
 mov RI AD1
 jump
-<0>input 97
+input 97
 mov RI GR0
 mov GR0 RO
 output
@@ -21,11 +21,11 @@ input 98
 mov RI GR0
 mov GR0 RO
 output
-<2>input 99
+input 99
 mov RI GR0
 mov GR0 RO
 output
-<3>input <1,0>
+input <1,0>
 mov RI AD0
 input <1,1>
 mov RI AD1

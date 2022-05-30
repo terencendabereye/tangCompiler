@@ -1,10 +1,13 @@
+goto(.start);
+
+.pre;
+goto(.pre);
+
 .start;
-    a = 0;
-    asciiOffset = '0';
-    .loop;
-        byteout('<');
-        byteout(a+asciiOffset);
-        byteout('>');
-        byteout(' ');
-        a = a+1;
-        goto(.loop);
+    byteout('a');
+    goto(.nxt);
+    byteout('b');
+    .nxt;
+    byteout('c');
+.end;
+goto(.pre);

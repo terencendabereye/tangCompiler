@@ -633,8 +633,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 5
-#define YY_END_OF_BUFFER 6
+#define YY_NUM_RULES 6
+#define YY_END_OF_BUFFER 7
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -642,10 +642,10 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[13] =
+static const flex_int16_t yy_accept[19] =
     {   0,
-        0,    0,    6,    4,    3,    4,    0,    0,    1,    0,
-        2,    0
+        0,    0,    0,    0,    7,    4,    3,    4,    5,    6,
+        5,    0,    0,    1,    0,    0,    2,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -685,36 +685,38 @@ static const YY_CHAR yy_meta[7] =
         1,    1,    1,    2,    1,    3
     } ;
 
-static const flex_int16_t yy_base[17] =
+static const flex_int16_t yy_base[25] =
     {   0,
-        0,    4,    8,   17,   17,    0,    7,    0,   17,    0,
-       17,   17,   13,    5,    2,    0
+        0,    4,    8,   12,   15,   24,   24,    0,   24,   24,
+        0,    6,    8,   24,    0,    0,   24,   24,   17,   20,
+        6,    5,    2,    0
     } ;
 
-static const flex_int16_t yy_def[17] =
+static const flex_int16_t yy_def[25] =
     {   0,
-       13,   13,   12,   12,   12,   14,   12,   15,   12,   16,
-       12,    0,   12,   12,   12,   12
+       19,   19,   20,   20,   18,   18,   18,   21,   18,   18,
+       22,   21,   22,   18,   23,   24,   18,    0,   18,   18,
+       18,   18,   18,   18
     } ;
 
-static const flex_int16_t yy_nxt[24] =
+static const flex_int16_t yy_nxt[31] =
     {   0,
-       12,    5,   11,   10,    6,    5,    7,   12,    6,    8,
-        7,   12,    9,    4,    4,    4,    3,   12,   12,   12,
-       12,   12,   12
+       18,    7,   17,   16,    8,    7,   13,   12,    8,   10,
+       15,   14,   11,   10,   18,   18,   11,    6,    6,    6,
+        9,    9,    9,    5,   18,   18,   18,   18,   18,   18
     } ;
 
-static const flex_int16_t yy_chk[24] =
+static const flex_int16_t yy_chk[31] =
     {   0,
-        0,    1,   16,   15,    1,    2,   14,    3,    2,    7,
-        7,    0,    7,   13,   13,   13,   12,   12,   12,   12,
-       12,   12,   12
+        0,    1,   24,   23,    1,    2,   22,   21,    2,    3,
+       13,   12,    3,    4,    5,    0,    4,   19,   19,   19,
+       20,   20,   20,   18,   18,   18,   18,   18,   18,   18
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[6] =
+static const flex_int32_t yy_rule_can_match_eol[7] =
     {   0,
-0, 0, 1, 0, 0,     };
+0, 0, 1, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -731,7 +733,8 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "./labelReplacement/lr.l"
-#line 4 "./labelReplacement/lr.l"
+
+#line 5 "./labelReplacement/lr.l"
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
@@ -751,11 +754,19 @@ char *yytext;
     int getLb_a1(int index);
     void replaceLabels(FILE *, FILE *);
 
+    int shouldReplace;
+
+    //if (shouldReplace == 1) {
+    //    BEGIN REPLACE;
+    //} else {
+    //    BEGIN INITIAL;
+    //}
     struct labelList labels[MAX_NUM_LABEL] = {0};
-#line 755 "lex.lblrep.c"
-#line 756 "lex.lblrep.c"
+#line 765 "lex.lblrep.c"
+#line 766 "lex.lblrep.c"
 
 #define INITIAL 0
+#define REPLACE 1
 
 #ifndef YY_NO_UNISTD_H
 /* Special case for "unistd.h", since it is non-ANSI. We include it way
@@ -970,9 +981,9 @@ YY_DECL
 		}
 
 	{
-#line 26 "./labelReplacement/lr.l"
+#line 34 "./labelReplacement/lr.l"
 
-#line 975 "lex.lblrep.c"
+#line 986 "lex.lblrep.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -999,13 +1010,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 13 )
+				if ( yy_current_state >= 19 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 17 );
+		while ( yy_base[yy_current_state] != 24 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -1041,7 +1052,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 27 "./labelReplacement/lr.l"
+#line 35 "./labelReplacement/lr.l"
 {
     int index;
     int adr;
@@ -1059,8 +1070,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 41 "./labelReplacement/lr.l"
+#line 49 "./labelReplacement/lr.l"
 {
+    //fprintf(yyout, "<rep>");
     int index;
     int adr;
     char *tmpNum = yytext;
@@ -1079,25 +1091,36 @@ YY_RULE_SETUP
     }
 }
 	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+#line 68 "./labelReplacement/lr.l"
+{BEGIN REPLACE;}
+	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 59 "./labelReplacement/lr.l"
+#line 69 "./labelReplacement/lr.l"
 {fprintf(yyout, "%c", yytext[0]);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 60 "./labelReplacement/lr.l"
+#line 70 "./labelReplacement/lr.l"
 {fprintf(yyout, "%c", yytext[0]);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 61 "./labelReplacement/lr.l"
+#line 71 "./labelReplacement/lr.l"
+{fprintf(yyout, "%c", yytext[0]);}
+	YY_BREAK
+case YY_STATE_EOF(REPLACE):
+#line 72 "./labelReplacement/lr.l"
+{yyterminate();}
+	YY_BREAK
+case 6:
+YY_RULE_SETUP
+#line 73 "./labelReplacement/lr.l"
 ECHO;
 	YY_BREAK
-#line 1098 "lex.lblrep.c"
-case YY_STATE_EOF(INITIAL):
-	yyterminate();
+#line 1123 "lex.lblrep.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1392,7 +1415,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 13 )
+			if ( yy_current_state >= 19 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1420,11 +1443,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 13 )
+		if ( yy_current_state >= 19 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 12);
+	yy_is_jam = (yy_current_state == 18);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2112,7 +2135,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 61 "./labelReplacement/lr.l"
+#line 73 "./labelReplacement/lr.l"
 
 
 
@@ -2130,7 +2153,17 @@ int getLb_a1(int index){
 }
 
 void replaceLabels(FILE *in, FILE *out){   //like main()
-    yyout = out;
+    char *tmpPath = "repTmp";
+    FILE *tmp;
+    tmp = fopen(tmpPath, "w");
     yyrestart(in);
+    yyout = tmp;
     yylex();
+    fclose(tmp);
+
+    tmp = fopen(tmpPath, "r");
+    yyrestart(tmp);
+    yyout = out;
+    yylex();
+    fclose(tmp);
 }
