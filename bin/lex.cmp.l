@@ -1,5 +1,6 @@
+#line 1 "./bin/lex.cmp.l"
 
-#line 2 "lex.yy.c"
+#line 3 "./bin/lex.cmp.l"
 
 #define  YY_INT_ALIGNED short int
 
@@ -517,8 +518,8 @@ char *yytext;
     #include "cmp.tab.h"
     void yyterminate();
     
-#line 520 "lex.yy.c"
-#line 521 "lex.yy.c"
+#line 521 "./bin/lex.cmp.l"
+#line 522 "./bin/lex.cmp.l"
 
 #define INITIAL 0
 
@@ -737,7 +738,7 @@ YY_DECL
 	{
 #line 10 "cmp.l"
 
-#line 740 "lex.yy.c"
+#line 741 "./bin/lex.cmp.l"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -949,7 +950,7 @@ YY_RULE_SETUP
 #line 76 "cmp.l"
 ECHO;
 	YY_BREAK
-#line 952 "lex.yy.c"
+#line 953 "./bin/lex.cmp.l"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

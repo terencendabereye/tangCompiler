@@ -1,5 +1,6 @@
+#line 1 "./bin/lex.asm.y"
 
-#line 2 "lex.asm.c"
+#line 3 "./bin/lex.asm.y"
 
 #define  YY_INT_ALIGNED short int
 
@@ -772,8 +773,8 @@ char *yytext;
 #line 4 "./assembler/asm.l"
     #include "asm.h"
     #include "asm.tab.h"
-#line 775 "lex.asm.c"
-#line 776 "lex.asm.c"
+#line 776 "./bin/lex.asm.y"
+#line 777 "./bin/lex.asm.y"
 
 #define INITIAL 0
 
@@ -992,7 +993,7 @@ YY_DECL
 	{
 #line 8 "./assembler/asm.l"
 
-#line 995 "lex.asm.c"
+#line 996 "./bin/lex.asm.y"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1166,7 +1167,7 @@ YY_RULE_SETUP
 #line 36 "./assembler/asm.l"
 ECHO;
 	YY_BREAK
-#line 1169 "lex.asm.c"
+#line 1170 "./bin/lex.asm.y"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

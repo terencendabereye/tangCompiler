@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     }
 
     if (!flag_src) {
-        fprintf(stderr, "> no source provided\n");
+        fprintf(stderr, "\e[91m>\e[m no source provided\n");
         exit(1);
     } else {
         if((f_src = fopen(srcpath, "r"))) flag_src = 1;
@@ -52,18 +52,18 @@ int main(int argc, char **argv) {
     FILE *f_tmp;
     FILE *f_tmp1;
 
-    f_tmp = fopen("tmp", "w");
+    f_tmp = fopen("./tmp/tmp0", "w");
     compile(f_src, f_tmp);
     fclose(f_src);
     fclose(f_tmp);
 
-    f_tmp = fopen("tmp", "r");
-    f_tmp1 = fopen("tmp1", "w");
+    f_tmp = fopen("./tmp/tmp0", "r");
+    f_tmp1 = fopen("./tmp/tmp1", "w");
     replaceLabels(f_tmp, f_tmp1);
     fclose(f_tmp);
     fclose(f_tmp1);
 
-    f_tmp1 = fopen("tmp1", "r");
+    f_tmp1 = fopen("./tmp/tmp1", "r");
     assemble(f_tmp1, f_out);
     fclose(f_tmp1);
 

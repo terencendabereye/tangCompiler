@@ -87,7 +87,7 @@ int getLb_a1(int index){
 }
 
 void replaceLabels(FILE *in, FILE *out){   //like main()
-    char *tmpPath = "repTmp";
+    char *tmpPath = "./tmp/repTmp0";
     FILE *tmp;
     tmp = fopen(tmpPath, "w");
     yyrestart(in);

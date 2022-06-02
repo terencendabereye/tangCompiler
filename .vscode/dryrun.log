@@ -1,0 +1,7 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/terence/Documents/code/assembler'
+bison -d fb.y
+flex fb.l
+cc -o fb fb.tab.c lex.yy.c -lfl
+make: Leaving directory `/Users/terence/Documents/code/assembler'
+ 
