@@ -36,6 +36,10 @@ enum nodeType{
     byteout,
     labelSet,
     labelReplace,
+    branch,
+    eql,
+    lst,
+    grt,
 };
 struct ast{
     enum nodeType nodeType;

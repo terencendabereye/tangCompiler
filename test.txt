@@ -1,13 +1,21 @@
 goto(.start);
 
-.pre;
-goto(.pre);
+.print;
+	ret=ret+1;
+	byteout(' ');
+	byteout(a+(0x30));
+	byteout(',');
+	goto(.ret);
+.halt;
+	goto(.halt);
 
 .start;
-    byteout('a');
-    goto(.nxt);
-    byteout('b');
-    .nxt;
-    byteout('c');
+	a=0;
+	.loop;
+		byteout(a+0x30);
+		a=a+1;
+		byteout(' ');
+		goto(.loop);
+		if (a-('z'+1)) .halt;
+	goto(.halt);
 .end;
-goto(.pre);

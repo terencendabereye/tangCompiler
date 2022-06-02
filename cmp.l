@@ -26,6 +26,7 @@
 "}" {return yytext[0];}
 goto {return JMP;}
 byteout {return BYTEOUT;}
+if {return IF;}
 [0-9]+  {yylval.i = atoi(yytext); return DEC;}
 '[ -~]'   {yylval.i = yytext[1]; return DEC;}
 0x[0-9a-fA-F]+ {char *ptr; yylval.i = strtol(yytext, &ptr, 16);return HEX;}

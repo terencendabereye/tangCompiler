@@ -117,7 +117,6 @@ int eval(struct ast *node) {
             fprintf(yyout, "output\n");
             return 255;
             break;
-
         case jmp:
             eval(node->l); 
             fprintf(yyout, "jump\n");
@@ -135,6 +134,27 @@ int eval(struct ast *node) {
         case labelSet:
             fprintf(yyout, "<%d>", ((struct terminalNode *)node)->value);
             return 255;
+        case labelReplace:
+            l = ((struct terminalNode *)node)->value;
+            fprintf(yyout, "input <%d,0>\n", l);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input <%d,1>\n", l);
+            fprintf(yyout, "mov RI AD1\n");
+            return 255;
+            break;
+        case branch:
+            l = eval(node->l);
+            fprintf(yyout, "input 0\n");
+            fprintf(yyout, "mov RI RY\n");
+            fprintf(yyout, "mov GR%d RX\n", l);
+            eval(node->r);
+            depth--;
+            fprintf(yyout, "branch 02\n");
+            return 255;
+            break;
+        case eql:
+            return eval(newNode(subByte, node->l, node->r));
+            break;
         default:
             fprintf(yyout, "Node error: %d\n", node->nodeType);
             return 0x255;
