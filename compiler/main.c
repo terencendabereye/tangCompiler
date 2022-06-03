@@ -1,5 +1,7 @@
 #include "cmp.h"
 #include <unistd.h>
+#include <sys/stat.h>
+//#include <sys/types.h>
 
 int main(int argc, char **argv) {
 	FILE *f_src;
@@ -8,6 +10,7 @@ int main(int argc, char **argv) {
     char *outpath;
     char *srcpath;
     char c;
+    char tmpTemplate[] = "./tmp/tmp.XXXXXX";
     flag_out = flag_src = 0;
     
     while ((c=getopt(argc, argv, "s:o:")) !=  -1) {
@@ -51,7 +54,9 @@ int main(int argc, char **argv) {
     
     FILE *f_tmp;
     FILE *f_tmp1;
-
+    
+    mkdir("tmp", 0777); // makes temporary directory;
+    
     f_tmp = fopen("./tmp/tmp0", "w");
     compile(f_src, f_tmp);
     fclose(f_src);

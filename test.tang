@@ -16,6 +16,6 @@ goto(.start);
 		a=a+1;
 		byteout(' ');
 		goto(.loop);
-		if (a-('z'+1)) .halt;
+		if (a-('z'+1)) .start;
 	goto(.halt);
 .end;

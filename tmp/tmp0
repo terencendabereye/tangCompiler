@@ -115,9 +115,9 @@ mov RA GR0
 input 0
 mov RI RY
 mov GR0 RX
-input <5,0>
+input <0,0>
 mov RI AD0
-input <5,1>
+input <0,1>
 mov RI AD1
 branch 02
 input <5,0>
