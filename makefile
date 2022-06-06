@@ -1,6 +1,6 @@
 TESTFILE:=test.txt
 OUTFILE:=
-CCFLAGS:= 
+CCFLAGS:=
 
 .PHONY: test clean build all
 all: compiler

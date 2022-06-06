@@ -18,10 +18,10 @@
 %nonassoc '!'
 %nonassoc '('
 
-%token JMP BYTEOUT IF
+%token JMP BYTEOUT IF VAR_DECL
 %token <i> DEC HEX BIN ID LABEL
 %type <i> ptr_x16
-%type <tree> statement expression value address reference label
+%type <tree> statement expression value address reference label if_statement
 
 %%
 program:
@@ -30,9 +30,12 @@ program:
 statement: address '=' expression ';'	{$$ = newNode(assign, $1, $3);}	
 | JMP '(' address ')' ';'				{$$ = newNode(jmp, $3, NULL);}
 | JMP '(' LABEL ')' ';'					{$$ = newTerminal(jmplbl, $3);}
-| IF expression label ';'		{$$ = newNode(branch, $2, $3)}
+| if_statement ';'						{$$ = $1;}
 | BYTEOUT '(' expression ')' ';'		{$$ = newNode(byteout, $3, NULL);}
 | LABEL ';'								{$$ = newTerminal(labelSet, $1);}
+| VAR_DECL ';'							{}
+;
+if_statement: IF expression ':' label	{$$ = newNode(branch, $2, $4)}
 ;
 expression: value						{$$ = $1;}
 | reference								{$$ = $1;}

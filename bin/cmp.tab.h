@@ -42,22 +42,24 @@
      JMP = 258,
      BYTEOUT = 259,
      IF = 260,
-     DEC = 261,
-     HEX = 262,
-     BIN = 263,
-     ID = 264,
-     LABEL = 265
+     VAR_DECL = 261,
+     DEC = 262,
+     HEX = 263,
+     BIN = 264,
+     ID = 265,
+     LABEL = 266
    };
 #endif
 /* Tokens.  */
 #define JMP 258
 #define BYTEOUT 259
 #define IF 260
-#define DEC 261
-#define HEX 262
-#define BIN 263
-#define ID 264
-#define LABEL 265
+#define VAR_DECL 261
+#define DEC 262
+#define HEX 263
+#define BIN 264
+#define ID 265
+#define LABEL 266
 
 
 
@@ -71,7 +73,7 @@ typedef union YYSTYPE
 	char *s;
 }
 /* Line 1529 of yacc.c.  */
-#line 75 "./bin/cmp.tab.h"
+#line 77 "./bin/cmp.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

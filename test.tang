@@ -1,21 +1,12 @@
 goto(.start);
 
-.print;
-	ret=ret+1;
-	byteout(' ');
-	byteout(a+(0x30));
-	byteout(',');
-	goto(.ret);
-.halt;
-	goto(.halt);
-
 .start;
-	a=0;
-	.loop;
-		byteout(a+0x30);
-		a=a+1;
-		byteout(' ');
-		goto(.loop);
-		if (a-('z'+1)) .start;
-	goto(.halt);
+    var a;
+    a = 0x30;
+    .loop; 
+        byteout(a);
+        if (a-'z') : .end;
+        a = a+1;
+        byteout(',');
+        goto(.loop);
 .end;

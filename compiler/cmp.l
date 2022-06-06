@@ -40,9 +40,25 @@ if {return IF;}
         free(out);
         return BIN;
     }
+"var "[A-Za-z][A-Za-z0-9]* {
+        char input[40];
+        strcpy(input, yytext);
+        char *tok = strtok(input, " ");
+        tok = strtok(NULL, " ");
+        //printf("%s\n", tok);
+        if (lookupSym(tok, varTable)==-1){
+            newSym(tok, varTable);
+        } else {
+            printf("\e[1;31mtang-error\e[m at line %d: can't reinitialize variable, '%s'\n" ,yylineno , tok);
+            exit(0);
+        }
+        return VAR_DECL;
+}
 [A-Za-z][A-Za-z0-9]*    {
         if (lookupSym(yytext, varTable)==-1){
-            yylval.i = newSym(yytext ,varTable);
+            //yylval.i = newSym(yytext ,varTable);
+            printf("\e[1;31mtang-error\e[m at line %d: use of undefined symbol, '%s'\n" ,yylineno , yytext);
+            exit(0);
             //printf("new var********* %s *\n", yytext);
         } else {
             yylval.i = lookupSym(yytext, varTable);
