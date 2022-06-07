@@ -33,9 +33,12 @@ statement: address '=' expression ';'	{$$ = newNode(assign, $1, $3);}
 | if_statement ';'						{$$ = $1;}
 | BYTEOUT '(' expression ')' ';'		{$$ = newNode(byteout, $3, NULL);}
 | LABEL ';'								{$$ = newTerminal(labelSet, $1);}
-| VAR_DECL ';'							{}
+| VAR_DECL ';'							{/*handled by lexer*/}
 ;
-if_statement: IF expression ':' label	{$$ = newNode(branch, $2, $4)}
+if_statement: IF expression label					{$$ = newNode(branch, $2, $3);}
+| IF '(' expression '=' '=' expression ')' label	{$$ = newIfNode(eql, $3, $6, $8);}
+| IF '(' expression '>' expression ')' label		{$$ = newIfNode(grt, $3, $5, $7);}
+| IF '(' expression '<' expression ')' label		{$$ = newIfNode(lsn, $3, $5, $7);}
 ;
 expression: value						{$$ = $1;}
 | reference								{$$ = $1;}

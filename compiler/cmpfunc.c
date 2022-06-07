@@ -1,6 +1,6 @@
 #include "cmp.h"
 
-struct ast *newNode(enum nodeType type, struct ast* l, struct ast *r){
+struct ast *newNode(enum nodeType type, struct ast *l, struct ast *r){
     struct ast *out = malloc(sizeof(struct ast));
     out->nodeType = type;
     out->l = l;
@@ -11,6 +11,14 @@ struct ast *newTerminal(enum nodeType type, int value){
     struct terminalNode *out = malloc(sizeof(struct ast));
     out->value = value;
     out->nodeType = type;
+    return (struct ast *)out;
+}
+struct ast *newIfNode(enum nodeType type, struct ast *l, struct ast *r, struct ast *target) {
+    struct ifNode *out = malloc(sizeof(struct ifNode));
+    out->nodeType = type;
+    out->l = l;
+    out->r = r;
+    out->target = target;
     return (struct ast *)out;
 }
 int eval(struct ast *node) {
@@ -149,14 +157,44 @@ int eval(struct ast *node) {
             fprintf(yyout, "mov GR%d RX\n", l);
             eval(node->r);
             depth--;
-            fprintf(yyout, "branch 02\n");
+            fprintf(yyout, "branch eql\n");
             return 255;
             break;
         case eql:
-            return eval(newNode(subByte, node->l, node->r));
+            l = eval(((struct ifNode *)node)->l);
+            r = eval(((struct ifNode *)node)->r);
+            fprintf(yyout, "mov GR%d RX\n", l);
+            depth--;
+            fprintf(yyout, "mov GR%d RY\n", r);
+            depth--;
+            eval(((struct ifNode *)node)->target);
+            fprintf(yyout, "branch eql\n");
+            return 255;
+            break;
+        case lsn:
+            l = eval(((struct ifNode *)node)->l);
+            r = eval(((struct ifNode *)node)->r);
+            fprintf(yyout, "mov GR%d RX\n", l);
+            depth--;
+            fprintf(yyout, "mov GR%d RY\n", r);
+            depth--;
+            eval(((struct ifNode *)node)->target);
+            fprintf(yyout, "branch lsn\n");
+            return 255;
+            break;
+        case grt:
+            l = eval(((struct ifNode *)node)->l);
+            r = eval(((struct ifNode *)node)->r);
+            fprintf(yyout, "mov GR%d RX\n", l);
+            depth--;
+            fprintf(yyout, "mov GR%d RY\n", r);
+            depth--;
+            eval(((struct ifNode *)node)->target);
+            fprintf(yyout, "branch grt\n");
+            return 255;
             break;
         default:
-            fprintf(yyout, "Node error: %d\n", node->nodeType);
+            printf("Node error: %d\n", node->nodeType);
             return 0x255;
     }
 }

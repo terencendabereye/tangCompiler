@@ -15,6 +15,10 @@ jump      {asmlval.c = jump;   return COM;}
 branch    {asmlval.c = branch_if; return COM;}
 add       {asmlval.i = 0; return NUM;}
 sub       {asmlval.i = 1; return NUM;}
+ovf       {asmlval.i = 0; return NUM;}
+lsn       {asmlval.i = 1; return NUM;}
+eql       {asmlval.i = 2; return NUM;}
+grt       {asmlval.i = 3; return NUM;}
 
 gr[0-7]     {asmlval.r = atoi(&asmtext[2]); return REG;}
 ra          {asmlval.r = ra; return REG;}

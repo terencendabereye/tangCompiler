@@ -38,7 +38,7 @@ enum nodeType{
     labelReplace,
     branch,
     eql,
-    lst,
+    lsn,
     grt,
 };
 struct ast{
@@ -50,6 +50,12 @@ struct terminalNode{
     enum nodeType nodeType;
     int value;
 };
+struct ifNode{
+    enum nodeType nodeType;
+    struct ast *l;
+    struct ast *r;
+    struct ast *target;
+};
 struct symtab{
     char *name;
     int address;
@@ -58,6 +64,7 @@ struct symtab{
 
 struct ast *newNode(enum nodeType type, struct ast* l, struct ast *r);
 struct ast *newTerminal(enum nodeType type, int value);
+struct ast *newIfNode(enum nodeType type, struct ast *l, struct ast *r, struct ast *target);
 int eval(struct ast *node);
 int newSym(const char *, struct symtab *);
 int lookupSym(const char *, struct symtab *);

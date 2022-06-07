@@ -1,2 +1,1 @@
-##
-assembler for GPC-3
+## assembler for GPC-3

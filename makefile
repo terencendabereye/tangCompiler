@@ -1,6 +1,6 @@
 TESTFILE:=test.txt
 OUTFILE:=
-CCFLAGS:=
+CCFLAGS:= -g -O0
 
 .PHONY: test clean build all
 all: compiler
@@ -18,7 +18,7 @@ clean:
 	trash *.tab.c *.tab.h *.yy.c
 build:
 	bison -d -o ./bin/asm.tab.c ./assembler/asm.y
-	flex -o ./bin/lex.asm.y ./assembler/asm.l
+	flex -o ./bin/lex.asm.c ./assembler/asm.l
 	cc $(CCFLAGS) -c -I"./compiler" -I"./assembler" -I"./bin" -o ./bin/asmfunc.o ./assembler/asmfunc.c
 
 	flex -o ./bin/lex.lblrep.c  ./labelReplacement/lr.l 

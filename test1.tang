@@ -1,0 +1,25 @@
+goto(.start);
+.start;
+    var x;
+    var y;
+    var ans;
+    x = 81;
+    y = 9;
+    ans = 0;
+    byteout(x+0x30);
+    byteout('/');
+    byteout(y+0x30);
+    byteout('=');
+    .div;
+        x = x - y;
+        if (x<0) .result;
+        if (x==0) .result;
+        ans = ans + 1;
+        goto(.div);
+    goto(.printAns);
+.end;
+goto(.end);
+
+.result;
+    byteout(ans + 0x30);
+    goto(.end);

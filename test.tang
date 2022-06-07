@@ -1,12 +1,7 @@
 goto(.start);
 
 .start;
-    var a;
-    a = 0x30;
-    .loop; 
-        byteout(a);
-        if (a-'z') : .end;
-        a = a+1;
-        byteout(',');
-        goto(.loop);
+    var ans;
+    ans = 43;
+    byteout(ans);
 .end;
