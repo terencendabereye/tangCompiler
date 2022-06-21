@@ -68,5 +68,3 @@ byteout('>');
 [toLogisim]: http://www.cburch.com/logisim/
 [toSystem3]: https://github.com/terencendabereye/microprocessor
 [tang-compiler-support]: https://github.com/terencendabereye/vs-tang
-=======
-# tangCompiler
