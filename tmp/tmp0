@@ -1,0 +1,201 @@
+input 62
+mov RI GR0
+mov GR0 RO
+output
+<0>gtpcr 
+input 16
+mov RI AD0
+input 255
+mov RI AD1
+mov rpc MEM
+input 17
+mov RI AD0
+input 255
+mov RI AD1
+mov rpc MEM
+input <4,0>
+mov RI AD0
+input <4,1>
+mov RI AD1
+jump
+input 43
+mov RI GR0
+mov GR0 RO
+output
+gtpcr 
+input 16
+mov RI AD0
+input 255
+mov RI AD1
+mov rpc MEM
+input 17
+mov RI AD0
+input 255
+mov RI AD1
+mov rpc MEM
+input <5,0>
+mov RI AD0
+input <5,1>
+mov RI AD1
+jump
+input 61
+mov RI GR0
+mov GR0 RO
+output
+input 1
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR1
+mov GR0 RX
+mov GR1 RY
+compute sub
+mov RA GR0
+input 3
+mov RI AD0
+input 0
+mov RI AD1
+mov GR0 MEM
+input 48
+mov RI GR0
+input 3
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR1
+mov GR0 RX
+mov GR1 RY
+compute add
+mov RA GR0
+mov GR0 RO
+output
+input 10
+mov RI GR0
+mov GR0 RO
+output
+input 62
+mov RI GR0
+mov GR0 RO
+output
+input <0,0>
+mov RI AD0
+input <0,1>
+mov RI AD1
+jump
+<4>mov RUSRIN GR0
+input 1
+mov RI AD0
+input 0
+mov RI AD1
+mov GR0 MEM
+input 1
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+input 0
+mov RI GR1
+mov GR0 RX
+mov GR1 RY
+input <4,0>
+mov RI AD0
+input <4,1>
+mov RI AD1
+branch eql
+input 1
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+mov GR0 RO
+output
+input 1
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+input 48
+mov RI GR1
+mov GR0 RX
+mov GR1 RY
+compute sub
+mov RA GR0
+input 1
+mov RI AD0
+input 0
+mov RI AD1
+mov GR0 MEM
+input 16
+mov RI AD0
+input 255
+mov RI AD1
+mov MEM GR0
+input 17
+mov RI AD0
+input 255
+mov RI AD1
+mov MEM GR1
+mov GR1 AD1
+mov GR0 AD0
+jump
+<5>mov RUSRIN GR0
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov GR0 MEM
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+mov GR0 RO
+output
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+input 0
+mov RI GR1
+mov GR0 RX
+mov GR1 RY
+input <4,0>
+mov RI AD0
+input <4,1>
+mov RI AD1
+branch eql
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov MEM GR0
+input 48
+mov RI GR1
+mov GR0 RX
+mov GR1 RY
+compute sub
+mov RA GR0
+input 2
+mov RI AD0
+input 0
+mov RI AD1
+mov GR0 MEM
+input 16
+mov RI AD0
+input 255
+mov RI AD1
+mov MEM GR0
+input 17
+mov RI AD0
+input 255
+mov RI AD1
+mov MEM GR1
+mov GR1 AD1
+mov GR0 AD0
+jump

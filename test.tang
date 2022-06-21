@@ -1,0 +1,30 @@
+byteout('>');
+.start;
+    var x;
+    var y;
+    var a;
+
+    .getx();
+    byteout('+');
+    .gety();
+    a=(x-y);
+    byteout('=');
+    byteout(0x30+a);
+    byteout(0xa);
+    byteout('>');
+    
+    
+    goto(.start);
+
+.getx;
+    x = bytein();
+    if (x==0) .getx;
+    byteout(x);
+    x = x-0x30;
+    return;
+.gety;
+    y = bytein();
+    byteout(y);
+    if (y==0) .getx;
+    y = y-0x30;
+    return;
