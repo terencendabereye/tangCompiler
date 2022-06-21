@@ -1,6 +1,6 @@
 TESTFILE:=test.txt
-OUTFILE:=
-CCFLAGS:= -g -O0
+OUTFILE:=tang
+CCFLAGS:= -std=c99
 
 .PHONY: test clean build all
 all: compiler
@@ -31,5 +31,5 @@ build:
 	cc $(CCFLAGS) -I"./compiler" -I"./assembler" -I"./bin" -c ./bin/*.c
 	mv *.o ./bin
 
-	cc -o tang $(CCFLAGS) -I"./compiler/" -I"./assembler/" -I"./bin/" ./bin/*.o
+	cc -o $(OUTFILE) $(CCFLAGS) -I"./compiler/" -I"./assembler/" -I"./bin/" ./bin/*.o
 #	cc -I"./compiler" -I"./assembler" -I"./bin" ./bin/*.c ./compiler/main.c

@@ -65,6 +65,23 @@ byteout('>');
     return;
 ```
 
+### Using the Compiler
+The tool can be used with the command `./tang` when the [exectuable](tang) is in the current working directory.  
+  
+One can try out the code from the command line on any Unix based system (like Linux, macOS etc.). I have not included the executable with the source, therefore we build it.
+Note you must have Flex, Bison, Make and a C compiler (must support c99).
+```
+mkdir t-lang
+cd t-lang
+make build
+```
+To test the executable, I have included a `.tang` source file. Run the following code
+```
+./tang -s tang.tang -o out.txt
+```
+Since Logisim doesn't require a special file extension, the output can just be a `.txt` file.  
+You can then load this `out.txt` file into the rom of the Logisim simulation.
+
 [toLogisim]: http://www.cburch.com/logisim/
 [toSystem3]: https://github.com/terencendabereye/microprocessor
 [tang-compiler-support]: https://github.com/terencendabereye/vs-tang
