@@ -8,6 +8,8 @@
 #define MAX_VAR_LENGTH 30
 #define VARS_START 0
 #define TEMP_VARS_START 0
+#define FN_STACK_0 0xff10
+#define FN_STACK_1 0xff11
 
 int yylex();
 void yyerror(char *);
@@ -34,12 +36,15 @@ enum nodeType{
     jmp,
     jmplbl,
     byteout,
+    bytein,
     labelSet,
     labelReplace,
     branch,
     eql,
     lsn,
     grt,
+    fnCall,
+    fnReturn,
 };
 struct ast{
     enum nodeType nodeType;

@@ -40,26 +40,30 @@
       know about them.  */
    enum yytokentype {
      JMP = 258,
-     BYTEOUT = 259,
-     IF = 260,
-     VAR_DECL = 261,
-     DEC = 262,
-     HEX = 263,
-     BIN = 264,
-     ID = 265,
-     LABEL = 266
+     RETURN = 259,
+     BYTEOUT = 260,
+     IF = 261,
+     VAR_DECL = 262,
+     BYTEIN = 263,
+     DEC = 264,
+     HEX = 265,
+     BIN = 266,
+     ID = 267,
+     LABEL = 268
    };
 #endif
 /* Tokens.  */
 #define JMP 258
-#define BYTEOUT 259
-#define IF 260
-#define VAR_DECL 261
-#define DEC 262
-#define HEX 263
-#define BIN 264
-#define ID 265
-#define LABEL 266
+#define RETURN 259
+#define BYTEOUT 260
+#define IF 261
+#define VAR_DECL 262
+#define BYTEIN 263
+#define DEC 264
+#define HEX 265
+#define BIN 266
+#define ID 267
+#define LABEL 268
 
 
 
@@ -73,7 +77,7 @@ typedef union YYSTYPE
 	char *s;
 }
 /* Line 1529 of yacc.c.  */
-#line 77 "./bin/cmp.tab.h"
+#line 81 "./bin/cmp.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

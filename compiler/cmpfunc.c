@@ -193,6 +193,56 @@ int eval(struct ast *node) {
             fprintf(yyout, "branch grt\n");
             return 255;
             break;
+        case fnCall:
+            l = ((struct terminalNode *)node)->value;
+            fprintf(yyout, "gtpcr \n");
+            
+
+            addr0 = ((struct terminalNode *)newTerminal(ptrSet, FN_STACK_0))->value & 0xff;
+            addr1 = (((struct terminalNode *)newTerminal(ptrSet, FN_STACK_0))->value & 0xff00)>>8;
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "mov rpc MEM\n");
+
+            addr0 = ((struct terminalNode *)newTerminal(ptrSet, FN_STACK_1))->value & 0xff;
+            addr1 = (((struct terminalNode *)newTerminal(ptrSet, FN_STACK_1))->value & 0xff00)>>8;
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "mov rpc MEM\n");
+            
+            eval(newTerminal(jmplbl, l));
+            return 255;
+            break;
+        case fnReturn:
+            addr0 = ((struct terminalNode *)newTerminal(ptrSet, FN_STACK_0))->value & 0xff;
+            addr1 = (((struct terminalNode *)newTerminal(ptrSet, FN_STACK_0))->value & 0xff00)>>8;
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "mov MEM GR%d\n", depth++);
+
+            addr0 = ((struct terminalNode *)newTerminal(ptrSet, FN_STACK_1))->value & 0xff;
+            addr1 = (((struct terminalNode *)newTerminal(ptrSet, FN_STACK_1))->value & 0xff00)>>8;
+            fprintf(yyout, "input %d\n", addr0);
+            fprintf(yyout, "mov RI AD0\n");
+            fprintf(yyout, "input %d\n", addr1);
+            fprintf(yyout, "mov RI AD1\n");
+            fprintf(yyout, "mov MEM GR%d\n", depth++);
+
+            fprintf(yyout, "mov GR%d AD1\n", --depth);
+            fprintf(yyout, "mov GR%d AD0\n", --depth);
+            fprintf(yyout, "jump\n");
+            return 255;
+            break;
+        case bytein:
+            fprintf(yyout, "mov RUSRIN GR%d\n", depth++);
+            return depth-1;
+            break;
         default:
             printf("Node error: %d\n", node->nodeType);
             return 0x255;

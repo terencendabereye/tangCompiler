@@ -26,6 +26,8 @@
 "}" {return yytext[0];}
 goto {return JMP;}
 byteout {return BYTEOUT;}
+bytein {return BYTEIN;}
+return {return RETURN;}
 if {return IF;}
 [0-9]+  {yylval.i = atoi(yytext); return DEC;}
 '[ -~]'   {yylval.i = yytext[1]; return DEC;}

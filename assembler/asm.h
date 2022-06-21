@@ -18,7 +18,7 @@ enum command{
     output=4,
     jump=05,
     branch_if=6,
-    getprogctr=7,       //is brocken
+    getprogctr=7,       //in testing
     retsubroutine=8,    //is brocken
 };
 enum reg{
