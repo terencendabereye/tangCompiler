@@ -73,6 +73,7 @@ Note you must have Flex, Bison, Make and a C compiler (must support c99).
 ```
 mkdir t-lang
 cd t-lang
+git clone https://github.com/terencendabereye/tangCompiler.git
 make build
 ```
 To test the executable, I have included a `.tang` source file. Run the following code
